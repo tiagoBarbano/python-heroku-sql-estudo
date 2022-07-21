@@ -7,3 +7,4 @@ python-decouple
 pydantic
 pydantic[email]
 asyncpg
+sqlalchemy
