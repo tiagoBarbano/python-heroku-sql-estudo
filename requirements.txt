@@ -1,0 +1,9 @@
+uvicorn
+fastapi
+pydantic
+motor
+pymongo
+python-decouple
+pydantic
+pydantic[email]
+asyncpg
