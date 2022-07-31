@@ -2,7 +2,7 @@ from typing import Any
 from app import service, cache
 from fastapi_utils.tasks import repeat_every
 from fastapi import FastAPI
-from app.config import Settings
+from app.config import settings
 
 
 def create_app():
@@ -15,14 +15,12 @@ def create_app():
             redoc_url="/redoc"
           )
 
-    global_settings = Settings()
-
     @app.on_event('startup')
-    @repeat_every(seconds=global_settings.repeat_event)  
+    @repeat_every(seconds=settings.repeat_event)  
     async def startup_event():
         await cache.init_cache_user()
     
     app.include_router(service.router, prefix="/v1/user", tags=["Users"])
-    app.include_router(cache.router, prefix="/v1/cache", tags=["cache"])
+    #app.include_router(cache.router, prefix="/v1/cache", tags=["cache"])
 
     return app

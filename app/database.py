@@ -5,10 +5,9 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 
-from app.config import Settings
+from app.config import settings
 
-global_settings = Settings()
-url = global_settings.asyncpg_url
+url = settings.asyncpg_url
 
 engine = create_async_engine(url,future=True,echo=True,)
 async_session = sessionmaker(engine, expire_on_commit=False, class_=AsyncSession)

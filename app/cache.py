@@ -3,20 +3,22 @@ from fastapi import HTTPException, status, APIRouter
 from fastapi.background import BackgroundTasks
 from redis_om import get_redis_connection, JsonModel, Field, Migrator
 from sqlalchemy.future import select
-from app.config import Settings
+from app.config import settings
 from app.database import async_session
 from app.model import UserModel
 
 
 router = APIRouter()
 
-global_settings = Settings()
+host = settings.host
+port = settings.port
+password = settings.password
 
 
 # This should be a different database
-redis = get_redis_connection(host=global_settings.host, 
-                             port=global_settings.port, 
-                             password=global_settings.password, 
+redis = get_redis_connection(host=host, 
+                             port=port, 
+                             password=password, 
                              decode_responses=True)
 
 class Order(JsonModel):
