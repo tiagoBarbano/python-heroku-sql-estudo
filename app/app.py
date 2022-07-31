@@ -1,6 +1,6 @@
 from typing import Any
 from app import service, cache
-from fastapi_utils.tasks import repeat_every, repeat
+from fastapi_utils.tasks import repeat_every
 from fastapi import FastAPI
 from app.config import Settings
 
