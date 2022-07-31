@@ -2,8 +2,6 @@ from typing import Any
 from app import service, cache
 from fastapi_utils.tasks import repeat_every
 from fastapi import FastAPI
-from app.config import settings
-
 
 def create_app():
     app: Any = FastAPI(
@@ -16,7 +14,7 @@ def create_app():
           )
 
     @app.on_event('startup')
-    @repeat_every(seconds=settings.repeat_event)  
+    @repeat_every(seconds=60 * 60)  
     async def startup_event():
         await cache.init_cache_user()
     
