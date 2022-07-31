@@ -20,12 +20,25 @@ async def add_user(user: UserSchema = Body(...), db: AsyncSession = Depends(get_
     db.add(new_user)
     return new_user
 
-@router.get("/", response_description="users retrieved")
+@router.get("/cache", response_description="users retrieved")
 async def get_users(db: AsyncSession = Depends(get_db)):
     try:
         users = await get_all()
         
-        #user = await get_all_users(db)
+        if users == []:
+            raise HTTPException(status_code=status.HTTP_204_NO_CONTENT)
+
+        return users
+    except HTTPException as ex:
+        if(hasattr(ex, 'status_code')):
+            raise HTTPException(status_code=ex.status_code)
+        
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@router.get("/sql", response_description="users retrieved")
+async def get_users(db: AsyncSession = Depends(get_db)):
+    try:
+        users = await get_all_users(db)
 
         if users == []:
             raise HTTPException(status_code=status.HTTP_204_NO_CONTENT)
