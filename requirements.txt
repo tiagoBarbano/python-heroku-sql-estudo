@@ -8,3 +8,5 @@ pydantic
 pydantic[email]
 asyncpg
 sqlalchemy
+redis_om
+fastapi_utils
