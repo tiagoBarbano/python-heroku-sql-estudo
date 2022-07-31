@@ -1,7 +1,9 @@
 from typing import Any
 from app import service, cache
-from fastapi_utils.tasks import repeat_every
+from fastapi_utils.tasks import repeat_every, repeat
 from fastapi import FastAPI
+from app.config import Settings
+
 
 def create_app():
     app: Any = FastAPI(
@@ -13,8 +15,10 @@ def create_app():
             redoc_url="/redoc"
           )
 
+    global_settings = Settings()
+
     @app.on_event('startup')
-    @repeat_every(seconds=30)  
+    @repeat_every(seconds=global_settings.repeat_event)  
     async def startup_event():
         await cache.init_cache_user()
     
